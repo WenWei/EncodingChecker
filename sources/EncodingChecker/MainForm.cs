@@ -43,6 +43,41 @@ namespace EncodingChecker
         private CurrentAction _currentAction;
         private Settings _settings;
 
+        //https://msdn.microsoft.com/en-us/library/system.text.encoding(v=vs.110).aspx
+        private Dictionary<string, string> _encodingNameMap = new Dictionary<string, string> {
+            {"UTF-8","utf-8" },
+            {"UTF-16LE","utf-16" },
+            {"UTF-16BE","utf-16" },
+            {"UTF-32BE","utf-32BE" },
+            {"UTF-32LE","utf-32" },
+            //{"X-ISO-10646-UCS-4-3412","" },
+            //{"X-ISO-10646-UCS-4-2413","" },
+            //{"windows-1251","" },
+            //{"windows-1252","" },
+            //{"windows-1253","" },
+            //{"windows-1255","" },
+            {"Big-5","big5" },
+            {"EUC-KR","euc-kr" },
+            {"EUC-JP","edu-jp" },
+            //{"EUC-TW","" },
+            { "gb18030","GB18030" },
+            //{"ISO-2022-JP","" },
+            //{"ISO-2022-CN","" },
+            //{"ISO-2022-KR","" },
+            {"HZ-GB-2312","hz-gb-2312" },
+            //{"Shift-JIS","" },
+            //{"x-mac-cyrillic","" },
+            //{"KOI8-R","" },
+            {"IBM855","IBM855" },
+            //{"IBM866","" },
+            //{"ISO-8859-2","" },
+            //{"ISO-8859-5","" },
+            //{"ISO-8859-7","" },
+            //{"ISO-8859-8","" },
+            //{"TIS620","" }
+        };
+        
+
         public MainForm()
         {
             InitializeComponent();
@@ -217,10 +252,16 @@ namespace EncodingChecker
                 using (StreamReader reader = charset == null ? new StreamReader(filePath, true) : new StreamReader(filePath, Encoding.GetEncoding(charset)))
                     content = reader.ReadToEnd();
 
+                
+
                 string targetCharset = (string)lstConvert.SelectedItem;
+                if(_encodingNameMap.ContainsKey(targetCharset))
+                    targetCharset = _encodingNameMap[targetCharset];
+
                 using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(targetCharset)))
                 {
-                    writer.Write(content);
+                    var contentConverted = TranslateContent(content, GetTranslateOption());
+                    writer.Write(contentConverted);
                     writer.Flush();
                 }
 
@@ -513,5 +554,118 @@ namespace EncodingChecker
         private const int ResultsColumnCharset = 0;
         private const int ResultsColumnFileName = 1;
         private const int ResultsColumnDirectory = 2;
+
+        private void toolStripMenuItemPreview_Click(object sender, EventArgs e)
+        {
+            foreach(ListViewItem item in lstResults.SelectedItems)
+            {
+                string charset = item.SubItems[ResultsColumnCharset].Text;
+                if (charset == "(Unknown)")
+                    charset = null;
+
+                if(_encodingNameMap.ContainsKey(charset)) charset = _encodingNameMap[charset];
+
+                string fileName = item.SubItems[ResultsColumnFileName].Text;
+                string directory = item.SubItems[ResultsColumnDirectory].Text;
+                string filePath = Path.Combine(directory, fileName);
+
+                FileAttributes attributes = File.GetAttributes(filePath);
+                if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                {
+                    attributes = attributes ^ FileAttributes.ReadOnly;
+                    File.SetAttributes(filePath, attributes);
+                }
+
+                string content=null;
+                string contentConverted=null;
+
+                using (StreamReader reader = charset == null ? new StreamReader(filePath, true) : new StreamReader(filePath, Encoding.GetEncoding(charset)))
+                    content = reader.ReadToEnd();
+
+
+                string targetCharset = (string)lstConvert.SelectedItem;
+                contentConverted = TranslateContent(content, GetTranslateOption());
+
+                var f = new PreviewForm(content, contentConverted, charset, null,filePath);
+                f.Show();
+
+            }
+        }
+
+        private string TranslateContent(string content, Translate translate)
+        {
+            if(translate == Translate.ToSimplified)
+                return ZhConvert.ToSimplified(content);
+            else if(translate == Translate.ToTraditional)
+                return ZhConvert.ToTraditional(content);
+            else
+                return content;
+        }
+
+        private void openGb18030ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowContent("GB18030", GetTranslateOption());
+        }
+
+        private void openUTF8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowContent("utf-8", GetTranslateOption());
+        }
+
+        private void openUTF16ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowContent("utf-16", GetTranslateOption());
+        }
+
+        private void openUTF32ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowContent("utf-32", GetTranslateOption());
+        }
+
+        private void openBIG5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowContent("big5", GetTranslateOption());
+        }
+
+        enum Translate
+        {
+            None,
+            ToSimplified,
+            ToTraditional
+        }
+
+        private Translate GetTranslateOption()
+        {
+            Translate translate = Translate.None;
+            if(radioButtonToTraditional.Checked) translate = Translate.ToTraditional;
+            else if(radioButtonToSimplified.Checked) translate = Translate.ToSimplified;
+            return translate;
+        }
+
+        private void ShowContent(string charset, Translate translate)
+        {
+            foreach(ListViewItem item in lstResults.SelectedItems)
+            {
+                string fileName = item.SubItems[ResultsColumnFileName].Text;
+                string directory = item.SubItems[ResultsColumnDirectory].Text;
+                string filePath = Path.Combine(directory, fileName);
+
+                string content=null;
+                string contentConverted=null;
+
+                using (StreamReader reader = charset == null ? new StreamReader(filePath, true) : new StreamReader(filePath, Encoding.GetEncoding(charset)))
+                    content = reader.ReadToEnd();
+
+
+                string targetCharset = (string)lstConvert.SelectedItem;
+
+                contentConverted = TranslateContent(content, translate);
+                
+                var f = new PreviewForm(content, contentConverted, charset, null, filePath);
+                f.Show();
+            }
+        }
+
+
     }
 }

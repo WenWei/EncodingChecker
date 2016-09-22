@@ -56,6 +56,17 @@
             this.btnConvert = new System.Windows.Forms.Button();
             this.chkSelectDeselectAll = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemPreview = new System.Windows.Forms.ToolStripMenuItem();
+            this.openGb18030ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openUTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.radioButtonToTraditional = new System.Windows.Forms.RadioButton();
+            this.radioButtonToSimplified = new System.Windows.Forms.RadioButton();
+            this.radioButtonNone = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.openUTF16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openUTF32ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openBIG5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             lblBaseDirectory = new System.Windows.Forms.Label();
             lblFileMasks = new System.Windows.Forms.Label();
             lblValidCharsets = new System.Windows.Forms.Label();
@@ -63,6 +74,8 @@
             colFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             colDirectory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusBar.SuspendLayout();
+            this.contextMenu.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblBaseDirectory
@@ -133,6 +146,7 @@
             colEncoding,
             colFileName,
             colDirectory});
+            this.lstResults.ContextMenuStrip = this.contextMenu;
             this.lstResults.FullRowSelect = true;
             this.lstResults.GridLines = true;
             this.lstResults.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -237,10 +251,88 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.OnCancelAction);
             // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemPreview,
+            this.openGb18030ToolStripMenuItem,
+            this.openUTF8ToolStripMenuItem,
+            this.openUTF16ToolStripMenuItem,
+            this.openUTF32ToolStripMenuItem,
+            this.openBIG5ToolStripMenuItem});
+            this.contextMenu.Name = "contextMenu";
+            resources.ApplyResources(this.contextMenu, "contextMenu");
+            // 
+            // toolStripMenuItemPreview
+            // 
+            this.toolStripMenuItemPreview.Name = "toolStripMenuItemPreview";
+            resources.ApplyResources(this.toolStripMenuItemPreview, "toolStripMenuItemPreview");
+            this.toolStripMenuItemPreview.Click += new System.EventHandler(this.toolStripMenuItemPreview_Click);
+            // 
+            // openGb18030ToolStripMenuItem
+            // 
+            this.openGb18030ToolStripMenuItem.Name = "openGb18030ToolStripMenuItem";
+            resources.ApplyResources(this.openGb18030ToolStripMenuItem, "openGb18030ToolStripMenuItem");
+            this.openGb18030ToolStripMenuItem.Click += new System.EventHandler(this.openGb18030ToolStripMenuItem_Click);
+            // 
+            // openUTF8ToolStripMenuItem
+            // 
+            this.openUTF8ToolStripMenuItem.Name = "openUTF8ToolStripMenuItem";
+            resources.ApplyResources(this.openUTF8ToolStripMenuItem, "openUTF8ToolStripMenuItem");
+            this.openUTF8ToolStripMenuItem.Click += new System.EventHandler(this.openUTF8ToolStripMenuItem_Click);
+            // 
+            // radioButtonToTraditional
+            // 
+            resources.ApplyResources(this.radioButtonToTraditional, "radioButtonToTraditional");
+            this.radioButtonToTraditional.Name = "radioButtonToTraditional";
+            this.radioButtonToTraditional.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonToSimplified
+            // 
+            resources.ApplyResources(this.radioButtonToSimplified, "radioButtonToSimplified");
+            this.radioButtonToSimplified.Name = "radioButtonToSimplified";
+            this.radioButtonToSimplified.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonNone
+            // 
+            resources.ApplyResources(this.radioButtonNone, "radioButtonNone");
+            this.radioButtonNone.Checked = true;
+            this.radioButtonNone.Name = "radioButtonNone";
+            this.radioButtonNone.TabStop = true;
+            this.radioButtonNone.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonToSimplified);
+            this.groupBox1.Controls.Add(this.radioButtonNone);
+            this.groupBox1.Controls.Add(this.radioButtonToTraditional);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // openUTF16ToolStripMenuItem
+            // 
+            this.openUTF16ToolStripMenuItem.Name = "openUTF16ToolStripMenuItem";
+            resources.ApplyResources(this.openUTF16ToolStripMenuItem, "openUTF16ToolStripMenuItem");
+            this.openUTF16ToolStripMenuItem.Click += new System.EventHandler(this.openUTF16ToolStripMenuItem_Click);
+            // 
+            // openUTF32ToolStripMenuItem
+            // 
+            this.openUTF32ToolStripMenuItem.Name = "openUTF32ToolStripMenuItem";
+            resources.ApplyResources(this.openUTF32ToolStripMenuItem, "openUTF32ToolStripMenuItem");
+            this.openUTF32ToolStripMenuItem.Click += new System.EventHandler(this.openUTF32ToolStripMenuItem_Click);
+            // 
+            // openBIG5ToolStripMenuItem
+            // 
+            this.openBIG5ToolStripMenuItem.Name = "openBIG5ToolStripMenuItem";
+            resources.ApplyResources(this.openBIG5ToolStripMenuItem, "openBIG5ToolStripMenuItem");
+            this.openBIG5ToolStripMenuItem.Click += new System.EventHandler(this.openBIG5ToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.chkSelectDeselectAll);
             this.Controls.Add(this.btnConvert);
@@ -264,6 +356,9 @@
             this.Load += new System.EventHandler(this.OnFormLoad);
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
+            this.contextMenu.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -291,6 +386,17 @@
         private System.Windows.Forms.ToolStripStatusLabel tlnkAbout;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ImageList imgsResults;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPreview;
+        private System.Windows.Forms.ToolStripMenuItem openGb18030ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openUTF8ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openUTF16ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openUTF32ToolStripMenuItem;
+        private System.Windows.Forms.RadioButton radioButtonToTraditional;
+        private System.Windows.Forms.RadioButton radioButtonToSimplified;
+        private System.Windows.Forms.RadioButton radioButtonNone;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ToolStripMenuItem openBIG5ToolStripMenuItem;
     }
 }
 
