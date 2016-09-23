@@ -2,8 +2,9 @@
 
 
 Clone from [https://encodingchecker.codeplex.com/](https://encodingchecker.codeplex.com/)
-Add Simplified Chinese to Traditional Chinese.
-Add Traditional Chinese to Simplified Chinese.
+
+- Add Simplified Chinese to Traditional Chinese.
+- Add Traditional Chinese to Simplified Chinese.
 
 
 ## Project Description
