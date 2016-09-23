@@ -30,11 +30,11 @@
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.lstConvert = new System.Windows.Forms.ComboBox();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.comboBoxTranslate = new System.Windows.Forms.ComboBox();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -63,13 +63,41 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.comboBoxTranslate);
             this.splitContainer1.Panel2.Controls.Add(this.lstConvert);
             this.splitContainer1.Panel2.Controls.Add(this.buttonSave);
-            this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.textBox2);
             this.splitContainer1.Size = new System.Drawing.Size(658, 446);
             this.splitContainer1.SplitterDistance = 323;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(33, 12);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "label1";
+            // 
+            // lstConvert
+            // 
+            this.lstConvert.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.lstConvert.FormattingEnabled = true;
+            this.lstConvert.Location = new System.Drawing.Point(130, 3);
+            this.lstConvert.Name = "lstConvert";
+            this.lstConvert.Size = new System.Drawing.Size(100, 20);
+            this.lstConvert.TabIndex = 12;
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(236, 1);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 4;
+            this.buttonSave.Text = "Convert";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // textBox2
             // 
@@ -82,48 +110,20 @@
             this.textBox2.Size = new System.Drawing.Size(325, 414);
             this.textBox2.TabIndex = 1;
             // 
-            // label1
+            // comboBoxTranslate
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 12);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "label1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(253, 3);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 4;
-            this.buttonSave.Text = "Convert";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // lstConvert
-            // 
-            this.lstConvert.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.lstConvert.FormattingEnabled = true;
-            this.lstConvert.Location = new System.Drawing.Point(147, 5);
-            this.lstConvert.Name = "lstConvert";
-            this.lstConvert.Size = new System.Drawing.Size(100, 20);
-            this.lstConvert.TabIndex = 12;
+            this.comboBoxTranslate.FormattingEnabled = true;
+            this.comboBoxTranslate.Location = new System.Drawing.Point(3, 3);
+            this.comboBoxTranslate.Name = "comboBoxTranslate";
+            this.comboBoxTranslate.Size = new System.Drawing.Size(121, 20);
+            this.comboBoxTranslate.TabIndex = 2;
+            this.comboBoxTranslate.SelectedIndexChanged += new System.EventHandler(this.comboBoxTranslate_SelectedIndexChanged);
             // 
             // PreviewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(679, 498);
+            this.ClientSize = new System.Drawing.Size(681, 467);
             this.Controls.Add(this.splitContainer1);
             this.Name = "PreviewForm";
             this.Text = "PreviewForm";
@@ -142,9 +142,9 @@
         public System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.ComboBox lstConvert;
+        private System.Windows.Forms.ComboBox comboBoxTranslate;
     }
 }

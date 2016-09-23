@@ -13,8 +13,6 @@ namespace EncodingChecker
 {
     public partial class PreviewForm : Form
     {
-        string _fullfilename;
-
         private Dictionary<string, string> _encodingNameMap = new Dictionary<string, string> {
             {"UTF-8","utf-8" },
             {"UTF-16LE","utf-16" },
@@ -47,31 +45,60 @@ namespace EncodingChecker
             //{"ISO-8859-8","" },
             //{"TIS620","" }
         };
+        private string content;
+        private string charset;
+        private string targetCharset;
+        private Translate translate;
+        private string filePath;
 
-
-        public PreviewForm(string text1, string text2, string encoding1, string encoding2, string fullfilename)
+        public PreviewForm(string content, string charset,string targetCharset, Translate translate, string filePath)
         {
             InitializeComponent();
 
-            textBox1.Text = text1;
-            label1.Text = encoding1;
-            textBox2.Text = text2;
-            label2.Text = encoding2;
-            _fullfilename = fullfilename;
+            this.content = content;
+            this.charset = charset;
+            this.targetCharset = targetCharset;
+            this.translate = translate;
+            this.filePath = filePath;
         }
+
+        private void PreviewForm_Load(object sender, EventArgs e)
+        {
+            textBox1.Text = content;
+            label1.Text = charset;
+
+
+            var translateTypes = Enum.GetValues(typeof(Translate));
+            foreach(Translate translateType in translateTypes)
+            {
+                comboBoxTranslate.Items.Add(translateType.ToString());
+            }
+            comboBoxTranslate.Text = translate.ToString();
+            //comboBoxTranslate.SelectedIndex = 0;
+
+            IEnumerable<string> validCharsets = GetSupportedCharsets();
+            foreach(string validCharset in validCharsets)
+            {
+                lstConvert.Items.Add(validCharset);
+            }
+            lstConvert.Text = targetCharset;
+            //if(lstConvert.Items.Count > 0)
+            //    lstConvert.SelectedIndex = 0;
+        }
+
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(_fullfilename))
+            if(string.IsNullOrEmpty(filePath))
             {
-                MessageBox.Show("unknow fullfilename");
+                MessageBox.Show("unknow filePath");
                 return;
             }
 
             string targetCharset = (string)lstConvert.SelectedItem;
             var encodingName = _encodingNameMap[targetCharset];
 
-            using(StreamWriter writer = new StreamWriter(_fullfilename, false, Encoding.GetEncoding(encodingName)))
+            using(StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(encodingName)))
             {
                 writer.Write(textBox2.Text);
                 writer.Flush();
@@ -79,16 +106,6 @@ namespace EncodingChecker
             }
         }
 
-        private void PreviewForm_Load(object sender, EventArgs e)
-        {
-            IEnumerable<string> validCharsets = GetSupportedCharsets();
-            foreach(string validCharset in validCharsets)
-            {
-                lstConvert.Items.Add(validCharset);
-            }
-            if(lstConvert.Items.Count > 0)
-                lstConvert.SelectedIndex = 0;
-        }
 
         private static IEnumerable<string> GetSupportedCharsets()
         {
@@ -101,6 +118,12 @@ namespace EncodingChecker
                 if(charsetConstant.FieldType == typeof(string))
                     yield return (string)charsetConstant.GetValue(null);
             }
+        }
+
+        private void comboBoxTranslate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var translate = (Translate)Enum.Parse(typeof(Translate), comboBoxTranslate.Text);
+             textBox2.Text = Common.TranslateContent(textBox1.Text, translate);
         }
     }
 }

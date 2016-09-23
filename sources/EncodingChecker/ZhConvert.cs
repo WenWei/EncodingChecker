@@ -40,25 +40,5 @@ namespace EncodingChecker
             LCMapString(LocaleSystemDefault, LcmapTraditionalChinese, argSource, argSource.Length, t, argSource.Length);
             return t;
         }
-  
-
-        ///
-        /// 使用 Office Word (Microsoft.Office.Interop.Word) 進行轉換
-        ///
-        //public static string ConvertUsingWord(string argSource, bool argIsCht)
-        //{
-        //    var doc = new Document();
-        //    doc.Content.Text = argSource;
-        //    doc.Content.TCSCConverter(
-        //        argIsCht
-        //            ? WdTCSCConverterDirection.wdTCSCConverterDirectionTCSC
-        //            : WdTCSCConverterDirection.wdTCSCConverterDirectionSCTC, true, true);
-        //    var ret = doc.Content.Text;
-        //    object saveChanges = false;
-        //    object originalFormat = Missing.Value;
-        //    object routeDocument = Missing.Value;
-        //    doc.Close(ref saveChanges, ref originalFormat, ref routeDocument);
-        //    return ret;
-        //}
     }
 }

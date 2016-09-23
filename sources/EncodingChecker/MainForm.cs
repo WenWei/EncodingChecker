@@ -260,7 +260,7 @@ namespace EncodingChecker
 
                 using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(targetCharset)))
                 {
-                    var contentConverted = TranslateContent(content, GetTranslateOption());
+                    var contentConverted = Common.TranslateContent(content, GetTranslateOption());
                     writer.Write(contentConverted);
                     writer.Flush();
                 }
@@ -577,62 +577,44 @@ namespace EncodingChecker
                 }
 
                 string content=null;
-                string contentConverted=null;
 
                 using (StreamReader reader = charset == null ? new StreamReader(filePath, true) : new StreamReader(filePath, Encoding.GetEncoding(charset)))
                     content = reader.ReadToEnd();
 
-
                 string targetCharset = (string)lstConvert.SelectedItem;
-                contentConverted = TranslateContent(content, GetTranslateOption());
 
-                var f = new PreviewForm(content, contentConverted, charset, null,filePath);
+                var f = new PreviewForm(content, charset, targetCharset, GetTranslateOption(), filePath);
                 f.Show();
 
             }
         }
 
-        private string TranslateContent(string content, Translate translate)
-        {
-            if(translate == Translate.ToSimplified)
-                return ZhConvert.ToSimplified(content);
-            else if(translate == Translate.ToTraditional)
-                return ZhConvert.ToTraditional(content);
-            else
-                return content;
-        }
 
         private void openGb18030ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowContent("GB18030", GetTranslateOption());
+            ShowContent("GB18030");
         }
 
         private void openUTF8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowContent("utf-8", GetTranslateOption());
+            ShowContent("utf-8");
         }
 
         private void openUTF16ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowContent("utf-16", GetTranslateOption());
+            ShowContent("utf-16");
         }
 
         private void openUTF32ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowContent("utf-32", GetTranslateOption());
+            ShowContent("utf-32");
         }
 
         private void openBIG5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowContent("big5", GetTranslateOption());
+            ShowContent("big5");
         }
 
-        enum Translate
-        {
-            None,
-            ToSimplified,
-            ToTraditional
-        }
 
         private Translate GetTranslateOption()
         {
@@ -642,7 +624,7 @@ namespace EncodingChecker
             return translate;
         }
 
-        private void ShowContent(string charset, Translate translate)
+        private void ShowContent(string charset)
         {
             foreach(ListViewItem item in lstResults.SelectedItems)
             {
@@ -651,7 +633,6 @@ namespace EncodingChecker
                 string filePath = Path.Combine(directory, fileName);
 
                 string content=null;
-                string contentConverted=null;
 
                 using (StreamReader reader = charset == null ? new StreamReader(filePath, true) : new StreamReader(filePath, Encoding.GetEncoding(charset)))
                     content = reader.ReadToEnd();
@@ -659,9 +640,7 @@ namespace EncodingChecker
 
                 string targetCharset = (string)lstConvert.SelectedItem;
 
-                contentConverted = TranslateContent(content, translate);
-                
-                var f = new PreviewForm(content, contentConverted, charset, null, filePath);
+                var f = new PreviewForm(content, charset, targetCharset, GetTranslateOption(), filePath);
                 f.Show();
             }
         }
