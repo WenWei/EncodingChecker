@@ -331,7 +331,7 @@ namespace EncodingChecker
                 progress.DirectoryName = directoryName;
                 progressBuffer[reportBufferCounter - 1] = progress;
                 reportBufferCounter++;
-                if (reportBufferCounter > progressBufferSize)
+                //if (reportBufferCounter > progressBufferSize)
                 {
                     reportBufferCounter = 1;
                     int percentageCompleted = (i * 100) / allFiles.Length;
